@@ -92,14 +92,35 @@
     return result;
   };
 
-  // Return all elements of an array that pass a truth test.
+   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    //reduce takes all the elements and returns a single value
+    //in this case that single value has to be an array
+    //that means the base or init value has to be an empty array and all the elements that pass through the test get pushed to the array.
+    //if no test is passed it should return the whole collection
+
+
+    //---------filter using each --------------
+    //create results array
+    var results = [];
+    //iterate through collection with each
+    _.each(collection, function(val){
+      //if test passes
+        //push that element to result
+      if(test(val)){
+        results.push(val);
+      }
+    });
+    //return result
+    return results;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
-    // TIP: see if you can re-use _.filter() here, without simply
-    // copying code in and modifying it
+    //use filter to return elements 
+    return _.filter(collection, function(item){
+      return test(item) === false;
+    });
   };
 
   // Produce a duplicate-free version of the array.
