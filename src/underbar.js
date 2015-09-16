@@ -125,6 +125,24 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArray = [];
+    //loop through array 
+    for (var i = 0; i < array.length; i++) {
+      var wasFound = false;
+      for (var j = 0; j <= newArray.length; j++){
+        if (array[i] === newArray[j]){
+          wasFound = true;
+        }
+      }
+      if(wasFound === false){
+        newArray.push(array[i]);
+      }
+      
+    };
+    //if the current element is not equal to an element in new array, add current element to new array
+    //add unique elements to new array
+    //if the element is not unique don't add it
+    return newArray;
   };
 
 
@@ -133,6 +151,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var result = [];
+    _.each(collection, function(item){
+        result.push(iterator(item));
+    });
+    return result;
   };
 
   /*
