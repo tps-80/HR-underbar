@@ -60,8 +60,21 @@
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    //test for collection type with Array.isArray
+    if(Array.isArray(collection)){
+      //iterate over arrays with for loop
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
+    } else {
+      //iterate over objects with for in loop
+      for(var key in collection){
+        iterator(collection[key], key, collection);
+      }
+    }
   };
 
+  // Could be called firstIndexOf
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
