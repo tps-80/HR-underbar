@@ -7,8 +7,9 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
-
+  
   /**
    * COLLECTIONS
    * ===========
@@ -36,7 +37,21 @@
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
+  //return an array of the last elements of an array.  If n is undefined return just the last element
+  //if index is zero, return empty array
   _.last = function(array, n) {
+    //if n is undefined return last element
+    //add all elements from end of array to index of n to new array
+    //return a new array
+    return n === undefined ? array[array.length -1] : n > array.length ? array : array.slice(array.length - n, array.length);
+
+    // if(n === undefined){ 
+    //   return array[array.length -1];  //returns last element in array
+    // } else if (n > array.length) { 
+    //   return array;  //returns the whole array if you want to return more elements than the array has
+    // } else {
+    //   return array.slice(array.length - n, array.length)  //another way to say "the last n items" //subtracting n from array.length gives you the last n items
+    // }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
