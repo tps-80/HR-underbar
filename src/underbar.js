@@ -225,6 +225,22 @@ _.reduce = function(collection, iterator, accumulator) {
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    //pass all elements through iterator
+      //if any elements fail, return false
+      //if all elements pass return true
+
+      if (!iterator) {
+        return true;
+      }
+
+      return _.reduce(collection, function(notFound, item){
+        if (!notFound) {
+          return false;
+        }
+        return iterator(item);
+
+      }, true);
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -324,6 +340,31 @@ _.reduce = function(collection, iterator, accumulator) {
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    //create new array
+    var result = [];
+    var sliced = array.slice();
+    var len = array.length;
+
+    function getRandom() {
+      return Math.random();
+    }
+
+
+    for(var i = 0; i < len; i++) {
+      var random = getRandom();
+      if(random < 0.5) {
+        result.push(sliced[0]);
+        sliced.shift();
+      } else {
+        result.unshift(sliced[0]);
+        sliced.shift();
+      }
+    }
+    if(result === array) {
+      return _.shuffle(result);
+    }
+    return result;
+
   };
 
 
