@@ -337,6 +337,7 @@ _.reduce = function(collection, iterator, accumulator) {
     };
   };
 
+
   // Memorize an expensive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
@@ -346,7 +347,25 @@ _.reduce = function(collection, iterator, accumulator) {
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    //store the results of calling the function in an object
+    var storedResults = {};
+
+    //returns a function
+    return function () {
+      //store arguments in a variable
+      var args = Array.prototype.slice.call(arguments);
+
+      //if the arguments that you are passing in on this call are already in storedResults, return the same result as the previous call
+      if (args in storedResults) {
+        return storedResults[args];
+      } else {
+        return (storedResults[args] = func.apply(this, args))
+      }
+    }
   };
+
+
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
