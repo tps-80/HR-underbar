@@ -229,24 +229,33 @@ _.reduce = function(collection, iterator, accumulator) {
       //if any elements fail, return false
       //if all elements pass return true
 
-      if (!iterator) {
-        return true;
-      }
-
-      return _.reduce(collection, function(notFound, item){
-        if (!notFound) {
-          return false;
-        }
-        return iterator(item);
+      return _.reduce(collection, function(passed, item){
+          if (!passed) {
+           return false;
+          } else {
+             if (iterator === undefined) {
+              return item;
+             } else {
+              return !!iterator(item);
+             }
+          }
 
       }, true);
-
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // callback to every switches all the boolean values
+    // if not every is not true then some are true
+    if (!iterator) {
+      iterator = _.identity;
+    }
+
+    return !(_.every(collection, function(val) {
+      return !iterator(val);
+    }));
   };
 
 
@@ -269,11 +278,31 @@ _.reduce = function(collection, iterator, accumulator) {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    //loop through all the arguments passed to extend
+    for (var i = 1; i < arguments.length; i++) {
+      //loop through all the keys in each argument
+      for (var key in arguments[i]) {
+        //set the value for each key
+        obj[key] = arguments[i][key];
+      }
+    };
+    //return the extended object
+    return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      for (var key in arguments[i]) {
+        //only create key if one with the same name does not already exist
+        if(obj[key] === undefined) {
+          obj[key] = arguments[i][key];
+        }
+      }
+    };
+    return obj;
   };
 
 
@@ -326,6 +355,11 @@ _.reduce = function(collection, iterator, accumulator) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+  var newArguments = Array.prototype.slice.call(arguments).slice(2);
+
+    setTimeout(function(){
+      func.apply(this, newArguments);
+    }, wait);
   };
 
 
@@ -348,7 +382,6 @@ _.reduce = function(collection, iterator, accumulator) {
     function getRandom() {
       return Math.random();
     }
-
 
     for(var i = 0; i < len; i++) {
       var random = getRandom();
